@@ -1,0 +1,26 @@
+trailingComma: "es5"
+tabWidth: 2
+semi: true
+singleQuote: false
+useTabs: true
+quoteProps: "consistent"
+
+overrides:
+  - files:
+      - "*.json"
+      - "*.cjs"
+    options:
+      trailingComma: none
+  - files:
+      - "*.mjs"
+      - "*.tsx"
+      - "*.yaml"
+    options:
+      useTabs: false
+  - files:
+      - "*.tsx"
+      - "*.mjs"
+    options:
+      quoteProps: "preserve"
+      tabWidth: 4
+      useTabs: false

@@ -1,10 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+import dataset from './api/get-data';
+import { SimpleZScoreComponent } from './components/SimpleZScore';
 import './index.css'
+
+console.log(dataset)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <SimpleZScoreComponent dataset={dataset} />
   </React.StrictMode>,
 )
