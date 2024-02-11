@@ -1,30 +1,34 @@
-# React + TypeScript + Vite
+# Тестовое задание для технического интервью в организации М..
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Необходимо модифицировать [пример](http://recharts.org/en-US/examples/SimpleLineChart).  
+Раскрасить все участки графиков на которых модуль `|z-score| > 1` в красный цвет. Цвет точек графика должен совпадать с цветом участка.
 
-Currently, two official plugins are available:
+#### Организация ищет специалиста, у которого есть
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+  -Опыт работы frontend разработчиком от 3-х лет;  
+  -Опыт разработки консоли управления;  
+  -Отличные знания JavaScript и WebPack;  
+  -Опыт работы с классовыми компонентами и хуками React;  
+  -Опыт responsive/adaptive вёрстки;  
+  -Умение проводить code review.  
 
-## Expanding the ESLint configuration
+#### Будущему коллеге предстоит
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+  -Разработка проектов с использованием React;  
+  -Проведение code-review;  
+  -Доработка готовых проектов (исправление багов, расширение функциональности);  
+  -Техническая оценка задач;  
+  -Взаимодействие с backend разработчиками для согласования схем API;  
+  -Взаимодействие с UX-дизайнером;  
+  -Участие в обсуждении задач.  
 
-- Configure the top-level `parserOptions` property like this:
+## Трудности
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    project: ["./tsconfig.json", "./tsconfig.node.json"],
-    tsconfigRootDir: __dirname,
-  },
-};
-```
+  1. Формат SVG по умолчанию поддерживает только один цвет для окраски фигур или их контуров.  
+  2. Библиотека Recharts не расширяет возможности SVG, является адаптером для библиотеки D3 в инфраструктуре React. (?) Не является интерфейсом для базовой функциональности D3.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Решение
+
+  1. Для примеров характерно размещение данных и их визуализации в одном файле. В коммерческом приложении данные всегда предоставляет веб-сервер через API. Вынес слой получения и обработки данных в отдельный модуль.  
+  2. Формат SVG поддерживает окраску контура через ссылку на градиент. Сам градиент является дополнительной фигурой. Для реализации градиента решился на использование D3 в качестве основного инструмента, издержки на исследование библиотеки Recharts счёл избыточными, но не бесполезными.  
+  3. Точки на графике не совпадают с границами `|z-score| > 1` по умолчанию. Для окраски точек требуется вспомогательная ф-ция, аналогичная алгоритму визуализации градиента. Но, если первая функция дискретна, то вторая непрерывна, поэтому реализации раздельные и основаны на общих настройках.
