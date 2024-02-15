@@ -1,7 +1,6 @@
-import DRAFT from '../api/get-draft-data';
-
 import ZScore from "z-score";
-import { DataState } from "./types";
+import DRAFT from '../api/get-draft-data';
+import { DataState } from "../settings";
 
 import type { TApiFulfilledData, TDataZScoreKey } from "./types";
 import type { TZScoreDataRow } from '../../@types/z-score';
@@ -39,7 +38,5 @@ const dataset: TApiFulfilledData = {
     },
     data: updatedData
 };
-
-console.log(dataset);
 
 export default dataset;

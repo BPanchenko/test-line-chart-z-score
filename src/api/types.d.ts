@@ -1,9 +1,5 @@
-import { ZScore } from "../../@types/z-score";
-
-const enum DataState {
-    draft = 'DRAFT',
-    fulfilled = 'COMPLETED',
-}
+import { DataState } from '../settings';
+import type { ZScore } from "z-score";
 
 type TDataPoint = {
     amt: number,
@@ -44,13 +40,4 @@ export type {
     TDataZScoreKey,
     TApiDraftData,
     TApiFulfilledData,
-}
-
-const isDraftData = (dataset: TApiData): dataset is TApiDraftData => (dataset.meta.status === DataState.draft);
-const isFulfilledData = (dataset: TApiData): dataset is TApiFulfilledData => (dataset.meta.status === DataState.fulfilled);
-
-export {
-    DataState,
-    isDraftData,
-    isFulfilledData
 }

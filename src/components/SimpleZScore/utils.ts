@@ -1,5 +1,5 @@
 import type { TDataKey, TDataZScoreKey, TApiFulfilledData } from '../../api/types';
-import { ZSCORE_MAX, ZSCORE_MIN } from './constants';
+import { ZSCORE_MAX, ZSCORE_MIN } from '../../settings';
 
 export const getValuesByDataKeyAndZScoreRange = (
     key: TDataKey,

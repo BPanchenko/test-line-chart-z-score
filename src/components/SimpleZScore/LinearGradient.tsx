@@ -12,28 +12,17 @@ const LinearGradientComponent: FC<{
         innerColor?: string;
         outerColor?: string;
     }
-}> = ({ data, dataKey }) => {
-    const $elem = useRef<SVGLinearGradientElement>(null);
-    const dataset = data ? data[dataKey] : {
-        domain: [0,0]
-    };
-
-    const scaleY = useRef<d3.ScaleLinear<number, number, never>>(
-        d3.scaleLinear()
-    );
-
-    useEffect(() => {
-        scaleY.current
-            .domain(dataset.domain as number[])
-            .range([0, $elem.current?.parentNode.clientHeight]);
-    }, [$elem]);
+}> = ({ data, dataKey: key }) => {
+    console.log(key, data);
+    // const scale = useRef<d3.ScaleLinear<number, number, never>>();
 
     return (
-        <linearGradient id="pv-gradient" x1="0%" y1="0" x2="0" y2="100%" ref={$elem}>
+        <linearGradient id={`${key}-gradient`} x1="0%" y1="0" x2="0" y2="100%">
             <stop offset="0%" stopColor="blue" />
+
             <stop offset={`${25}%`} stopColor="blue" />
             <stop offset={`${50}%`} stopColor="red" />
-            <stop offset={`${75}%`} stopColor="red" />
+
             <stop offset="100%" stopColor="red" />
         </linearGradient>
     );
