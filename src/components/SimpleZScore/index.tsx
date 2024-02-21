@@ -6,7 +6,7 @@ import { LinearGradientComponent } from "./LinearGradient";
 import { CHART } from '../../settings';
 
 import type { Payload } from 'recharts/types/component/DefaultLegendContent';
-import type { TApiData, TDataKey, IZScore } from '../../types';
+import type { TApiData, TDataKey, TZScoreDataRow } from '../../types';
 
 import './index.css';
 
@@ -45,8 +45,8 @@ const SimpleZScoreComponent: FC<TProps> = ({ dataset }) => {
       >
         {isFulfilled && (
           <defs>
-            {Object.entries<IZScore['data']>(dataset.meta.zScore.data).map(
-              ([key, dataRow]) => (<LinearGradientComponent data={dataRow} dataKey={key as TDataKey} key={key} />)
+            {Object.entries(dataset.meta.zScore.data).map(
+              ([key, dataRow], index) => (<LinearGradientComponent data={dataRow as TZScoreDataRow} dataKey={key as TDataKey} key={index} />)
             )}
           </defs>
         )}

@@ -1,3 +1,5 @@
+import { red, blue } from 'protosite-palette/assets/palette';
+
 export const enum DataState {
     draft = 'DRAFT',
     fulfilled = 'COMPLETED',
@@ -5,8 +7,8 @@ export const enum DataState {
 
 export const CHART = {
     colors: (new Map<number | string, string>([
-        ['outOfRangeZScore', '#F44336'],
-        [0, '#2196F3']
+        ['outOfRangeZScore', red],
+        [0, blue]
     ])),
     zScore: { 
         safeRange: [-1, 1]

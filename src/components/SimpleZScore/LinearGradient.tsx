@@ -2,8 +2,7 @@ import { FC } from 'react';
 import { CHART } from '../../settings';
 import { useColoredIntervalRepresentation } from './utils';
 
-import type { TDataKey } from '../../types';
-import type { TZScoreDataRow } from '../../../@types/z-score';
+import type { TDataKey, TZScoreDataRow } from '../../types';
 
 const LinearGradientComponent: FC<{
     data: TZScoreDataRow,
