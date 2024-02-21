@@ -1,34 +1,53 @@
-import type { TDataKey, TDataZScoreKey, TApiFulfilledData } from '../../api/types';
-import { ZSCORE_MAX, ZSCORE_MIN } from '../../settings';
+import { useMemo } from "react";
+import { scaleLinear } from "d3-scale";
 
-export const getValuesByDataKeyAndZScoreRange = (
-    key: TDataKey,
-    data: TApiFulfilledData['data'],
-    options?: {
-      min?: number;
-      max?: number;
-      innerRange?: boolean;
+import type {
+  TDataKey,
+  TDataZScoreKey,
+  TuseColoredIntervalRepresentationOptions,
+  TuseColoredIntervalRepresentationResult,
+  TDataPoint
+} from '../../types';
+
+import { CHART } from '../../settings';
+
+export const isPointInSafeZScoreInterval = (point: TDataPoint, dataKey: TDataKey) => {
+  const zScoreKey = dataKey + 'ZScore' as TDataZScoreKey;
+  const value = point[zScoreKey];
+  return value >= CHART.zScore.safeRange[0] && value <= CHART.zScore.safeRange[1];
+};
+
+export const useColoredIntervalRepresentation = (
+  { 
+    domain,
+    range,
+    settings: {
+      inIntervalColor,
+      outOfIntervalColor,
+      interval: [min, max]
     }
-  ): Array<{ name: string, value?: number }> => {
-    const { min, max, innerRange } = {
-      min: ZSCORE_MIN,
-      max: ZSCORE_MAX,
-      innerRange: true,
-      ...options
-    };
-    const zKey: TDataZScoreKey = (key + 'ZScore') as TDataZScoreKey;
-    return data.map(point => {
-      const item: { name: string, value?: number } = {
-        name: point.name
-      };
-      const zValue = point[zKey];
-      const isExpectedValue = (innerRange && zValue <= max && zValue >= min)
-        || (innerRange === false && zValue > max && zValue < min);
-      
-      if (isExpectedValue) {
-        item.value = point[key];
-      }
+  }: TuseColoredIntervalRepresentationOptions
+): TuseColoredIntervalRepresentationResult => {
+  const positions = useMemo(() => {
+    const positions: TuseColoredIntervalRepresentationResult = [];
+
+    if (domain[0] < min) {
+      positions.push([domain[0], outOfIntervalColor], [min, [outOfIntervalColor, inIntervalColor]]);
+    } else {
+      positions.push([domain[0], inIntervalColor]);
+    }
   
-      return item;
-    });
-  };
+    if (domain[1] > max) {
+      positions.push([max, [inIntervalColor, outOfIntervalColor]], [domain[1], outOfIntervalColor]);
+    } else {
+      positions.push([domain[1], inIntervalColor]);
+    }
+
+    const scale = scaleLinear(domain, range);
+    positions.forEach((item) => item[0] = scale(item[0]));
+
+    return positions;
+  }, [domain, range, inIntervalColor, max, min, outOfIntervalColor]);
+
+  return positions;
+};

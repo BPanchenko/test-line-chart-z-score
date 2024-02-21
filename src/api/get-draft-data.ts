@@ -1,4 +1,4 @@
-import type { TApiDraftData } from "./types";
+import type { TApiDraftData } from "../types";
 import { DataState } from "../settings";
 import DRAFT from './storage/draft-data.json';
 import _ from 'lodash';

@@ -3,8 +3,12 @@ export const enum DataState {
     fulfilled = 'COMPLETED',
 }
 
-export const OUTER_COLOR = '#880E4F';
-export const INNER_COLOR = '#1A237E';
-
-export const ZSCORE_MAX = 1;
-export const ZSCORE_MIN = -1;
+export const CHART = {
+    colors: (new Map<number | string, string>([
+        ['outOfRangeZScore', '#F44336'],
+        [0, '#2196F3']
+    ])),
+    zScore: { 
+        safeRange: [-1, 1]
+    }
+};

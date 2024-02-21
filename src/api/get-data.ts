@@ -2,8 +2,7 @@ import ZScore from "z-score";
 import DRAFT from '../api/get-draft-data';
 import { DataState } from "../settings";
 
-import type { TApiFulfilledData, TDataZScoreKey } from "./types";
-import type { TZScoreDataRow } from '../../@types/z-score';
+import type { TApiFulfilledData, TDataZScoreKey, TZScoreDataRow } from "../types";
 
 const { data, meta } = DRAFT;
 

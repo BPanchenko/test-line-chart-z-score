@@ -1,14 +1,30 @@
 import { FC } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { isDraftData, isFulfilledData } from '../../api/utils';
+import { CustomizedDot } from './CustomizedDot';
 import { LinearGradientComponent } from "./LinearGradient";
+import { CHART } from '../../settings';
 
-import type { TApiData, TDataKey } from '../../api/types';
-import type { IZScore } from 'z-score';
+import type { Payload } from 'recharts/types/component/DefaultLegendContent';
+import type { TApiData, TDataKey, IZScore } from '../../types';
+
+import './index.css';
 
 type TProps = {
   dataset: TApiData
 };
+
+const legendPayload: Payload[] = [
+  {
+    value: 'pv',
+    color: CHART.colors.get(0)!,
+    type: 'line'
+  }, {
+    value: 'uv',
+    color: CHART.colors.get(0)!,
+    type: 'line'
+  }
+];
 
 const SimpleZScoreComponent: FC<TProps> = ({ dataset }) => {
   const isDraft = isDraftData(dataset);
@@ -38,17 +54,17 @@ const SimpleZScoreComponent: FC<TProps> = ({ dataset }) => {
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Legend />
+        <Legend payload={legendPayload} />
         {isDraft && (
           <>
-            <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            <Line type="monotone" dataKey="pv" stroke={CHART.colors.get(0)!} activeDot={{ r: 8 }} />
+            <Line type="monotone" dataKey="uv" stroke={CHART.colors.get(0)!} activeDot={{ r: 8 }} />
           </>
         )}
         {isFulfilled && (
           <>
-            <Line type="monotone" dataKey="pv" stroke="url(#pv-gradient)" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="uv" stroke="url(#uv-gradient)" />
+            <Line type="monotone" dataKey="pv" stroke="url(#pv-gradient)" dot={<CustomizedDot dataKey="pv" />} activeDot={<CustomizedDot isActive dataKey="uv" r={8} />} />
+            <Line type="monotone" dataKey="uv" stroke="url(#uv-gradient)" dot={<CustomizedDot dataKey="uv" />} activeDot={<CustomizedDot isActive dataKey="uv" r={8} />} />
           </>
         )}
       </LineChart>
